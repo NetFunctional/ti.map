@@ -26,6 +26,32 @@
 		24DD6CFA1134B3F500162E58 /* TiMapModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* TiMapModule.m */; };
 		24DE9E1111C5FE74003F90F6 /* TiMapModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* TiMapModuleAssets.h */; };
 		24DE9E1211C5FE74003F90F6 /* TiMapModuleAssets.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DE9E1011C5FE74003F90F6 /* TiMapModuleAssets.m */; };
+		2EF2F9D61AC6023800AEAB6C /* TiNFMImageOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9CE1AC6023800AEAB6C /* TiNFMImageOverlayView.h */; };
+		2EF2F9D71AC6023800AEAB6C /* TiNFMImageOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9CF1AC6023800AEAB6C /* TiNFMImageOverlayView.m */; };
+		2EF2F9D81AC6023800AEAB6C /* TiNFMImageOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9D01AC6023800AEAB6C /* TiNFMImageOverlay.h */; };
+		2EF2F9D91AC6023800AEAB6C /* TiNFMImageOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9D11AC6023800AEAB6C /* TiNFMImageOverlay.m */; };
+		2EF2F9DA1AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9D21AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.h */; };
+		2EF2F9DB1AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9D31AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.m */; };
+		2EF2F9DC1AC6023800AEAB6C /* TiNFMFloatingImageOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9D41AC6023800AEAB6C /* TiNFMFloatingImageOverlay.h */; };
+		2EF2F9DD1AC6023800AEAB6C /* TiNFMFloatingImageOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9D51AC6023800AEAB6C /* TiNFMFloatingImageOverlay.m */; };
+		2EF2F9E01AC604D300AEAB6C /* TiNFMMapPolygon.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9DE1AC604D300AEAB6C /* TiNFMMapPolygon.h */; };
+		2EF2F9E11AC604D300AEAB6C /* TiNFMMapPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9DF1AC604D300AEAB6C /* TiNFMMapPolygon.m */; };
+		2EF2F9E41AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9E21AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.h */; };
+		2EF2F9E51AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9E31AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.m */; };
+		2EF2F9EA1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9E61AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.h */; };
+		2EF2F9EB1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9E71AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.m */; };
+		2EF2F9EC1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9E81AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.h */; };
+		2EF2F9ED1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9E91AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.m */; };
+		2EF2F9F01AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9EE1AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.h */; };
+		2EF2F9F11AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9EF1AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.m */; };
+		2EF2F9F41AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9F21AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.h */; };
+		2EF2F9F51AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9F31AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.m */; };
+		2EF2F9F81AC60D4C00AEAB6C /* TiNFMMapCircle.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9F61AC60D4C00AEAB6C /* TiNFMMapCircle.h */; };
+		2EF2F9F91AC60D4C00AEAB6C /* TiNFMMapCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9F71AC60D4C00AEAB6C /* TiNFMMapCircle.m */; };
+		2EF2F9FC1AC60D7F00AEAB6C /* TiNFMMapPolyline.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9FA1AC60D7F00AEAB6C /* TiNFMMapPolyline.h */; };
+		2EF2F9FD1AC60D7F00AEAB6C /* TiNFMMapPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9FB1AC60D7F00AEAB6C /* TiNFMMapPolyline.m */; };
+		2EF2FA001AC60F0500AEAB6C /* TiMapKMLDocumentProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 2EF2F9FE1AC60F0500AEAB6C /* TiMapKMLDocumentProxy.h */; };
+		2EF2FA011AC60F0500AEAB6C /* TiMapKMLDocumentProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF2F9FF1AC60F0500AEAB6C /* TiMapKMLDocumentProxy.m */; };
 		AA747D9F0F9514B9006C5449 /* TiMap_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* TiMap_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		CE92EC1D17DF7B2F0082E943 /* TiMapIOS7View.h in Headers */ = {isa = PBXBuildFile; fileRef = CE92EC1917DF7B2F0082E943 /* TiMapIOS7View.h */; };
@@ -69,6 +95,32 @@
 		24DD6D1B1134B66800162E58 /* titanium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
 		24DE9E0F11C5FE74003F90F6 /* TiMapModuleAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiMapModuleAssets.h; path = Classes/TiMapModuleAssets.h; sourceTree = "<group>"; };
 		24DE9E1011C5FE74003F90F6 /* TiMapModuleAssets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiMapModuleAssets.m; path = Classes/TiMapModuleAssets.m; sourceTree = "<group>"; };
+		2EF2F9CE1AC6023800AEAB6C /* TiNFMImageOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiNFMImageOverlayView.h; path = Classes/TiNFMImageOverlayView.h; sourceTree = "<group>"; };
+		2EF2F9CF1AC6023800AEAB6C /* TiNFMImageOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiNFMImageOverlayView.m; path = Classes/TiNFMImageOverlayView.m; sourceTree = "<group>"; };
+		2EF2F9D01AC6023800AEAB6C /* TiNFMImageOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiNFMImageOverlay.h; path = Classes/TiNFMImageOverlay.h; sourceTree = "<group>"; };
+		2EF2F9D11AC6023800AEAB6C /* TiNFMImageOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiNFMImageOverlay.m; path = Classes/TiNFMImageOverlay.m; sourceTree = "<group>"; };
+		2EF2F9D21AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiNFMFloatingImageOverlayView.h; path = Classes/TiNFMFloatingImageOverlayView.h; sourceTree = "<group>"; };
+		2EF2F9D31AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiNFMFloatingImageOverlayView.m; path = Classes/TiNFMFloatingImageOverlayView.m; sourceTree = "<group>"; };
+		2EF2F9D41AC6023800AEAB6C /* TiNFMFloatingImageOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiNFMFloatingImageOverlay.h; path = Classes/TiNFMFloatingImageOverlay.h; sourceTree = "<group>"; };
+		2EF2F9D51AC6023800AEAB6C /* TiNFMFloatingImageOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiNFMFloatingImageOverlay.m; path = Classes/TiNFMFloatingImageOverlay.m; sourceTree = "<group>"; };
+		2EF2F9DE1AC604D300AEAB6C /* TiNFMMapPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiNFMMapPolygon.h; path = Classes/TiNFMMapPolygon.h; sourceTree = "<group>"; };
+		2EF2F9DF1AC604D300AEAB6C /* TiNFMMapPolygon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiNFMMapPolygon.m; path = Classes/TiNFMMapPolygon.m; sourceTree = "<group>"; };
+		2EF2F9E21AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetfunctionalMapoverlayKMLDocumentProxy.h; path = Classes/NetfunctionalMapoverlayKMLDocumentProxy.h; sourceTree = "<group>"; };
+		2EF2F9E31AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetfunctionalMapoverlayKMLDocumentProxy.m; path = Classes/NetfunctionalMapoverlayKMLDocumentProxy.m; sourceTree = "<group>"; };
+		2EF2F9E61AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetfunctionalMapoverlayTilerOverlay.h; path = Classes/NetfunctionalMapoverlayTilerOverlay.h; sourceTree = "<group>"; };
+		2EF2F9E71AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetfunctionalMapoverlayTilerOverlay.m; path = Classes/NetfunctionalMapoverlayTilerOverlay.m; sourceTree = "<group>"; };
+		2EF2F9E81AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetfunctionalMapoverlayTilerOverlayView.h; path = Classes/NetfunctionalMapoverlayTilerOverlayView.h; sourceTree = "<group>"; };
+		2EF2F9E91AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetfunctionalMapoverlayTilerOverlayView.m; path = Classes/NetfunctionalMapoverlayTilerOverlayView.m; sourceTree = "<group>"; };
+		2EF2F9EE1AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetfunctionalMapoverlayTileDatabase.h; path = Classes/NetfunctionalMapoverlayTileDatabase.h; sourceTree = "<group>"; };
+		2EF2F9EF1AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetfunctionalMapoverlayTileDatabase.m; path = Classes/NetfunctionalMapoverlayTileDatabase.m; sourceTree = "<group>"; };
+		2EF2F9F21AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetfunctionalMapoverlayTileUtil.h; path = Classes/NetfunctionalMapoverlayTileUtil.h; sourceTree = "<group>"; };
+		2EF2F9F31AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetfunctionalMapoverlayTileUtil.m; path = Classes/NetfunctionalMapoverlayTileUtil.m; sourceTree = "<group>"; };
+		2EF2F9F61AC60D4C00AEAB6C /* TiNFMMapCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiNFMMapCircle.h; path = Classes/TiNFMMapCircle.h; sourceTree = "<group>"; };
+		2EF2F9F71AC60D4C00AEAB6C /* TiNFMMapCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiNFMMapCircle.m; path = Classes/TiNFMMapCircle.m; sourceTree = "<group>"; };
+		2EF2F9FA1AC60D7F00AEAB6C /* TiNFMMapPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiNFMMapPolyline.h; path = Classes/TiNFMMapPolyline.h; sourceTree = "<group>"; };
+		2EF2F9FB1AC60D7F00AEAB6C /* TiNFMMapPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiNFMMapPolyline.m; path = Classes/TiNFMMapPolyline.m; sourceTree = "<group>"; };
+		2EF2F9FE1AC60F0500AEAB6C /* TiMapKMLDocumentProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiMapKMLDocumentProxy.h; path = Classes/TiMapKMLDocumentProxy.h; sourceTree = "<group>"; };
+		2EF2F9FF1AC60F0500AEAB6C /* TiMapKMLDocumentProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiMapKMLDocumentProxy.m; path = Classes/TiMapKMLDocumentProxy.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* TiMap_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiMap_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CE92EC1917DF7B2F0082E943 /* TiMapIOS7View.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiMapIOS7View.h; path = Classes/TiMapIOS7View.h; sourceTree = "<group>"; };
@@ -121,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
+				2EF2F9CD1AC6020700AEAB6C /* ExpandedOverlayClasses */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
@@ -170,6 +223,39 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		2EF2F9CD1AC6020700AEAB6C /* ExpandedOverlayClasses */ = {
+			isa = PBXGroup;
+			children = (
+				2EF2F9FE1AC60F0500AEAB6C /* TiMapKMLDocumentProxy.h */,
+				2EF2F9FF1AC60F0500AEAB6C /* TiMapKMLDocumentProxy.m */,
+				2EF2F9FA1AC60D7F00AEAB6C /* TiNFMMapPolyline.h */,
+				2EF2F9FB1AC60D7F00AEAB6C /* TiNFMMapPolyline.m */,
+				2EF2F9F61AC60D4C00AEAB6C /* TiNFMMapCircle.h */,
+				2EF2F9F71AC60D4C00AEAB6C /* TiNFMMapCircle.m */,
+				2EF2F9F21AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.h */,
+				2EF2F9F31AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.m */,
+				2EF2F9EE1AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.h */,
+				2EF2F9EF1AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.m */,
+				2EF2F9E61AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.h */,
+				2EF2F9E71AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.m */,
+				2EF2F9E81AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.h */,
+				2EF2F9E91AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.m */,
+				2EF2F9E21AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.h */,
+				2EF2F9E31AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.m */,
+				2EF2F9DE1AC604D300AEAB6C /* TiNFMMapPolygon.h */,
+				2EF2F9DF1AC604D300AEAB6C /* TiNFMMapPolygon.m */,
+				2EF2F9CE1AC6023800AEAB6C /* TiNFMImageOverlayView.h */,
+				2EF2F9CF1AC6023800AEAB6C /* TiNFMImageOverlayView.m */,
+				2EF2F9D01AC6023800AEAB6C /* TiNFMImageOverlay.h */,
+				2EF2F9D11AC6023800AEAB6C /* TiNFMImageOverlay.m */,
+				2EF2F9D21AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.h */,
+				2EF2F9D31AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.m */,
+				2EF2F9D41AC6023800AEAB6C /* TiNFMFloatingImageOverlay.h */,
+				2EF2F9D51AC6023800AEAB6C /* TiNFMFloatingImageOverlay.m */,
+			);
+			name = ExpandedOverlayClasses;
+			sourceTree = "<group>";
+		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,21 +272,34 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EF2F9F01AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.h in Headers */,
 				AA747D9F0F9514B9006C5449 /* TiMap_Prefix.pch in Headers */,
 				CE92EC2217DF8B020082E943 /* TiMKOverlayPathUniversal.h in Headers */,
+				2EF2F9FC1AC60D7F00AEAB6C /* TiNFMMapPolyline.h in Headers */,
 				24DD6CF91134B3F500162E58 /* TiMapModule.h in Headers */,
 				CE92EC1F17DF7B2F0082E943 /* TiMapIOS7ViewProxy.h in Headers */,
 				24DE9E1111C5FE74003F90F6 /* TiMapModuleAssets.h in Headers */,
+				2EF2F9EA1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.h in Headers */,
 				CED651C617D7AA21007C2954 /* TiMapAnnotationProxy.h in Headers */,
+				2EF2F9F81AC60D4C00AEAB6C /* TiNFMMapCircle.h in Headers */,
 				CE92EC2517DF9A640082E943 /* TiMapCameraProxy.h in Headers */,
 				CEE33CF319EC4C150005E745 /* TiMapUtils.h in Headers */,
 				CEC39B4617EB97BA00DCE1EE /* TiMapRouteProxy.h in Headers */,
+				2EF2F9DC1AC6023800AEAB6C /* TiNFMFloatingImageOverlay.h in Headers */,
 				CED651C817D7AA21007C2954 /* TiMapCustomAnnotationView.h in Headers */,
+				2EF2F9EC1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.h in Headers */,
 				CED651CA17D7AA21007C2954 /* TiMapImageAnnotationView.h in Headers */,
+				2EF2FA001AC60F0500AEAB6C /* TiMapKMLDocumentProxy.h in Headers */,
+				2EF2F9D61AC6023800AEAB6C /* TiNFMImageOverlayView.h in Headers */,
 				CED651CC17D7AA21007C2954 /* TiMapPinAnnotationView.h in Headers */,
+				2EF2F9D81AC6023800AEAB6C /* TiNFMImageOverlay.h in Headers */,
+				2EF2F9E01AC604D300AEAB6C /* TiNFMMapPolygon.h in Headers */,
 				CED651CE17D7AA21007C2954 /* TiMapView.h in Headers */,
+				2EF2F9E41AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.h in Headers */,
 				CED651D017D7AA21007C2954 /* TiMapViewProxy.h in Headers */,
 				CE92EC1D17DF7B2F0082E943 /* TiMapIOS7View.h in Headers */,
+				2EF2F9F41AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.h in Headers */,
+				2EF2F9DA1AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,16 +374,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				24DD6CFA1134B3F500162E58 /* TiMapModule.m in Sources */,
+				2EF2F9E51AC6059D00AEAB6C /* NetfunctionalMapoverlayKMLDocumentProxy.m in Sources */,
+				2EF2F9FD1AC60D7F00AEAB6C /* TiNFMMapPolyline.m in Sources */,
 				24DE9E1211C5FE74003F90F6 /* TiMapModuleAssets.m in Sources */,
 				CED651C717D7AA21007C2954 /* TiMapAnnotationProxy.m in Sources */,
+				2EF2F9EB1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlay.m in Sources */,
 				CED651C917D7AA21007C2954 /* TiMapCustomAnnotationView.m in Sources */,
 				CEC39B4717EB97BA00DCE1EE /* TiMapRouteProxy.m in Sources */,
 				CE92EC2617DF9A640082E943 /* TiMapCameraProxy.m in Sources */,
+				2EF2F9F51AC6063700AEAB6C /* NetfunctionalMapoverlayTileUtil.m in Sources */,
+				2EF2F9DD1AC6023800AEAB6C /* TiNFMFloatingImageOverlay.m in Sources */,
 				CED651CB17D7AA21007C2954 /* TiMapImageAnnotationView.m in Sources */,
 				CE92EC1E17DF7B2F0082E943 /* TiMapIOS7View.m in Sources */,
+				2EF2F9F11AC6061400AEAB6C /* NetfunctionalMapoverlayTileDatabase.m in Sources */,
 				CED651CD17D7AA21007C2954 /* TiMapPinAnnotationView.m in Sources */,
 				CE92EC2017DF7B2F0082E943 /* TiMapIOS7ViewProxy.m in Sources */,
+				2EF2FA011AC60F0500AEAB6C /* TiMapKMLDocumentProxy.m in Sources */,
+				2EF2F9D71AC6023800AEAB6C /* TiNFMImageOverlayView.m in Sources */,
+				2EF2F9D91AC6023800AEAB6C /* TiNFMImageOverlay.m in Sources */,
+				2EF2F9F91AC60D4C00AEAB6C /* TiNFMMapCircle.m in Sources */,
+				2EF2F9DB1AC6023800AEAB6C /* TiNFMFloatingImageOverlayView.m in Sources */,
+				2EF2F9E11AC604D300AEAB6C /* TiNFMMapPolygon.m in Sources */,
 				CEE33CF419EC4C150005E745 /* TiMapUtils.m in Sources */,
+				2EF2F9ED1AC605F200AEAB6C /* NetfunctionalMapoverlayTilerOverlayView.m in Sources */,
 				CED651CF17D7AA21007C2954 /* TiMapView.m in Sources */,
 				CED651D117D7AA21007C2954 /* TiMapViewProxy.m in Sources */,
 			);

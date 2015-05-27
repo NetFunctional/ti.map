@@ -15,6 +15,18 @@
 #import "TiMapCustomAnnotationView.h"
 #import "TiMapRouteProxy.h"
 
+#import "TiNFMMapPolygon.h"
+#import "TiNFMMapPolyline.h"
+#import "TiNFMMapCircle.h"
+#import "TiNFMImageOverlayView.h"
+#import "TiNFMImageOverlay.h"
+#import "TiNFMFloatingImageOverlayView.h"
+#import "TiNFMFloatingImageOverlay.h"
+//#import "NetfunctionalMapoverlayAnnotationProxy.h"
+//#import "NetfunctionalMapoverlayPinAnnotationView.h"
+#import "NetfunctionalMapoverlayTilerOverlay.h"
+#import "NetfunctionalMapoverlayTilerOverlayView.h"
+
 @implementation TiMapView
 
 #pragma mark Internal
@@ -31,6 +43,10 @@
         mapLine2View = nil;
     }
 	RELEASE_TO_NIL(locationManager);
+    RELEASE_TO_NIL(polylineViews);
+    RELEASE_TO_NIL(polylines);
+    RELEASE_TO_NIL(overlays);
+    RELEASE_TO_NIL(overlayViews);
 	[super dealloc];
 }
 
@@ -565,13 +581,18 @@
 // Delegate for >= iOS 7
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay
 {
-    return (MKOverlayRenderer *)CFDictionaryGetValue(mapLine2View, overlay);
+    if ([overlay isKindOfClass:[NetfunctionalMapoverlayTilerOverlay class]] || [overlay isKindOfClass:[TiNFMMapPolyline class]] || [overlay isKindOfClass:[MKPolygon class]] || [overlay isKindOfClass:[TiNFMMapCircle class]] || [overlay isKindOfClass:[TiNFMMapPolygon class]] || [overlay isKindOfClass:[TiNFMFloatingImageOverlay class]] || [overlay isKindOfClass:[TiNFMImageOverlay class]]) {
+        return [self mapView:mapView viewForOverlay:overlay];
+    }
+    else {
+        return (MKOverlayRenderer *)CFDictionaryGetValue(mapLine2View, overlay);
+    }
 }
 
 // Delegate for < iOS 7
 // MKPolylineView is deprecated in iOS 7, still here for backward compatibility.
 // Can be removed when support is dropped for iOS 6 and below.
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForTiOverlay:(id <MKOverlay>)overlay
 {	
     return (MKOverlayView *)CFDictionaryGetValue(mapLine2View, overlay);
 }
@@ -905,6 +926,597 @@
 	{
 		[viewProxy fireEvent:@"click" withObject:event];
 	}
+}
+
+#pragma mark Customized viewForOverlay method 
+
+//override of native Titanium.Map method.  Our version will use the native MapKit MKPolyline and MKPolylineView classes which were added for iOS 4.0
+
+-(void)addPolyline:(id)args
+{
+    //verify we have a dictionary object as args
+    ENSURE_DICT(args);
+    ENSURE_UI_THREAD(addAnnotation,args);
+    
+    //retrieve the name of our polyline
+    NSString *name = [TiUtils stringValue:@"name" properties:args];
+    
+    //initialize our polylines array field if it isn't already
+    if (polylines==nil)
+    {
+        polylines = [[NSMutableDictionary dictionary] retain];
+    }
+    
+    //determine if there are any polyline annotations already with this name; delete them if there are
+    id<MKAnnotation> ann = [polylines objectForKey:name];
+    if (ann!=nil)
+    {
+        
+        [map removeAnnotation:ann];
+        //[map removeAnnotation:ann];
+        [polylines removeObjectForKey:name];
+        [polylineViews removeObjectForKey:name];
+    }
+    
+    if (polylineViews==nil)
+    {
+        polylineViews = [[NSMutableDictionary dictionary] retain];
+    }
+    
+    
+    
+    
+    //retrieve the polyline's styling details
+    
+    CGFloat strokeAlpha;
+    if ([args objectForKey:@"alpha"] != nil) {
+        strokeAlpha = [TiUtils floatValue:@"alpha" properties:args def:2];
+    }
+    else {
+        //TODO log use of default
+        strokeAlpha = 1.0;
+    }
+    
+    TiColor *strokeColor= [TiUtils colorValue:@"color" properties:args];
+    UIColor* strokeColorUI;
+    
+    if (strokeColor!=nil)
+    {
+        strokeColorUI = [[strokeColor _color] colorWithAlphaComponent:strokeAlpha];
+    }
+    else {
+        NSLog(@"No color specified for polyline/route; using default color black instead");
+        strokeColorUI = [[UIColor blackColor] colorWithAlphaComponent:strokeAlpha];
+    }
+    
+    CGFloat lineWidth;
+    if ([args objectForKey:@"width"] != nil) {
+        lineWidth = [TiUtils floatValue:@"width" properties:args def:2];
+    }
+    else {
+        //TODO log use of default
+        lineWidth = 1.0;
+    }
+    
+    //retrieve the points of the route
+    //array to store overlay polyline vertice coordinates
+    NSArray *points = [args objectForKey:@"points"];
+    //check that arguments contain vertices
+    if (points==nil)
+    {
+        [self throwException:@"Missing required key: 'points'" subreason:nil location:CODELOCATION];
+    }
+    else {
+        TiNFMMapPolyline* routePolyline = [[TiNFMMapPolyline alloc]initWithPoints:points];
+        routePolyline.lineWidth = lineWidth;
+        routePolyline.strokeColor = strokeColorUI;
+        
+        [map addOverlay:routePolyline];
+        [polylines setObject:routePolyline forKey:name];
+        [routePolyline release];
+    }
+    
+    
+}
+
+-(void)removePolyline:(id)args
+{
+    ENSURE_DICT(args);
+    NSString *name = [TiUtils stringValue:@"name" properties:args];
+    if (polylines==nil)
+    {
+        polylines = [[NSMutableDictionary dictionary] retain];
+    }
+    id<MKOverlay> ann = [polylines objectForKey:name];
+    if (ann!=nil)
+    {
+        [map removeOverlay:ann];
+        //[map removeOverlay:ann];
+        [polylines removeObjectForKey:name];
+        [polylineViews removeObjectForKey:name];
+    }
+}
+
+
+-(NSValue*) keyForMKOverlay:(id<MKOverlay>) overlay {
+    //    if ([overlay )
+    NSValue* keyVal;
+    if ([overlay isKindOfClass:[MKPolygon class]]) {
+        return [NSValue valueWithPointer:&overlay];
+    }
+}
+
+
+-(void) addTilerOverlay:(id<MKOverlay>)overlay {
+    [map addOverlay:overlay];
+}
+
+-(void) addKMLOverlays:(NetfunctionalMapoverlayKMLDocumentProxy*) kmlDocument {
+    NSLog(@"[INFO] adding kml overlays from file %@",kmlDocument);
+    NSArray *kmlOverlays = [kmlDocument overlays];
+    
+    if (!kmlOverlayToKMLDoc) {
+        kmlOverlayToKMLDoc = [[NSMutableDictionary alloc] initWithCapacity:[kmlOverlays count]];
+    }
+    
+    for(id kmlOverlay in kmlOverlays) {
+        [kmlOverlayToKMLDoc setObject:kmlDocument forKey:[NSValue valueWithPointer:kmlOverlay]];
+    }
+    
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    [map addOverlays:kmlOverlays];
+    
+    NSLog(@"[INFO] added %d kml overlays from file %@",[kmlOverlays count],kmlDocument);
+    
+}
+
+-(void) removeKMLOverlays:(NetfunctionalMapoverlayKMLDocumentProxy*) kmlDocument {
+    NSArray *kmlOverlays = [kmlDocument overlays];
+    
+    for(id kmlOverlay in kmlOverlays) {
+        [kmlOverlayToKMLDoc removeObjectForKey:[NSValue valueWithPointer:kmlOverlay]];
+    }
+    
+    //    dispatch_async(dispatch_get_main_queue(), ^{
+    [map removeOverlays:kmlOverlays];
+}
+
+
+-(void)addOverlay:(id)args
+{
+    //verify we have a dictionary object as args
+    ENSURE_DICT(args);
+    ENSURE_UI_THREAD(addAnnotation,args);
+    
+    //retrieve the type of our overlay (should be either 'polygon', 'circle' or 'image')
+    NSString *overlayType = [TiUtils stringValue:@"type" properties:args];
+    
+    
+    
+    //retrieve the name of our overlay
+    NSString *name = [TiUtils stringValue:@"name" properties:args];
+    
+    //initialize our overlays array field if it isn't already
+    if (overlays==nil)
+    {
+        overlays = [[NSMutableDictionary dictionary] retain];
+    }
+    
+    //determine if there are any overlay annotations already with this name; delete them if there are
+    id<MKAnnotation> ann = [overlays objectForKey:name];
+    if (ann!=nil)
+    {
+        
+        [map removeAnnotation:ann];
+        //[map removeAnnotation:ann];
+        [overlays removeObjectForKey:name];
+        [overlayViews removeObjectForKey:name];
+    }
+    
+    if (overlayViews==nil)
+    {
+        overlayViews = [[NSMutableDictionary dictionary] retain];
+    }
+    
+    
+    if ([overlayType isEqualToString:@"image"]  || [overlayType isEqualToString:@"floating_image"]) {
+        
+        
+        //retrieve the other properties of the image
+        
+        //ensure the 'img' file has been specified.
+        if ([args objectForKey:@"img"] == nil) {
+            [self throwException:@"missing required 'img' key; cannot locate image file to use for overlay" subreason:nil location:CODELOCATION];
+        }
+        NSString *imagePath = [TiUtils stringValue:@"img" properties:args];
+        CGFloat imageAlpha;
+        if ([args objectForKey:@"alpha"] !=nil) {
+            imageAlpha = [TiUtils floatValue:@"alpha" properties:args];
+        }
+        else {
+            //set a default alpha
+            imageAlpha = 0.9;
+        }
+        
+        //if specified, get the zoom scale range limits; cover the full range of zoom scales if none are specified, or in any case err on the side of maximum permissability.
+        CGFloat minZoomScale;
+        if ([args objectForKey:@"minZoomScale"] !=nil) {
+            minZoomScale = [TiUtils floatValue:@"minZoomScale" properties:args];
+        }
+        else {
+            //set a default alpha
+            minZoomScale = 0.0;
+        }
+        
+        CGFloat maxZoomScale;
+        if ([args objectForKey:@"maxZoomScale"] !=nil) {
+            maxZoomScale = [TiUtils floatValue:@"maxZoomScale" properties:args];
+        }
+        else {
+            //set a default alpha
+            maxZoomScale = 1.0;
+        }
+        
+        //NSLog(@"2: alpha is %f",imageAlpha);
+        
+        UIImage* img = [UIImage imageNamed:imagePath];
+        if (img == nil) {
+            //possibly is not within the named resources of application, so see if there is a native file path to use
+            //img = [UIImage imageWithContentsOfFile:imagePath];
+            //img = [UIImage imageWithContentsOfFile:@"file:///localhost/Users/michael/Library/Application Support/iPhone Simulator/4.3/Applications/D2DA3575-01A8-4412-93F9-51C69EBA1802/Documents/test.png"];
+            
+            /*NSString* pathToAppDataDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+             //pathToAppDataDir = [[NSURL fileURLWithPath:pathToAppDataDir isDirectory:YES] absoluteString];
+             
+             //NSLog(@"Path to application directory, according to NSSearchPathForDirectoriesInDomains: %@",pathToAppDataDir);
+             
+             
+             //NSString* pathToImageFile = [NSString stringWithFormat:@"%@%@", pathToAppDataDir, imagePath];
+             
+             //NSLog(@"Path to image file: %@",pathToImageFile);
+             
+             //img = [UIImage imageWithContentsOfFile:pathToImageFile];
+             */
+            //NSURL* urlToFile = [NSURL URLWithString:pathToImageFile];
+            NSURL* urlToFile = [NSURL URLWithString:imagePath];
+            NSData* imageData = [NSData dataWithContentsOfURL:urlToFile];
+            img = [[UIImage alloc] initWithData:imageData];
+            //img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:pathToImageFile]]];
+        }
+        
+        if (img == nil) {
+            NSLog(@"failed to load image file for overlay");
+        }
+        else {
+            //NSLog(@"successfully loaded an image file for use as a map overlay");
+        }
+        
+        //here we branch the code to handle the two types of image overlays:  floating and non-floating (i.e., ones painted onto the surface of the globe)
+        
+        if ([overlayType isEqualToString:@"image"]) {
+            //retrieve the coordinates for the north west corner of the overlay and convert to the appropriate Core Location type
+            NSDictionary *nwcCoords = [args objectForKey:@"northWestCoord"];
+            if (nwcCoords == nil) {
+                [self throwException:@"missing required 'northWestCoord' key" subreason:nil location:CODELOCATION];
+            }
+            if ([nwcCoords objectForKey:@"latitude"]==nil ||  [nwcCoords objectForKey:@"longitude"]==nil) {
+                [self throwException:@"missing required latitude and longitude key-value pairs for 'northWestCoord' key" subreason:nil location:CODELOCATION];
+            }
+            CLLocationDegrees nwLat = [TiUtils doubleValue:[nwcCoords objectForKey:@"latitude"]];
+            CLLocationDegrees nwLon = [TiUtils doubleValue:[nwcCoords objectForKey:@"longitude"]];
+            CLLocationCoordinate2D nwc = CLLocationCoordinate2DMake(nwLat,nwLon);
+            
+            //do the same as above but for the south east corner
+            NSDictionary *secCoords = [args objectForKey:@"southEastCoord"];
+            if (secCoords == nil) {
+                [self throwException:@"missing required 'southEastCoord' key" subreason:nil location:CODELOCATION];
+            }
+            if ([secCoords objectForKey:@"latitude"]==nil ||  [secCoords objectForKey:@"longitude"]==nil) {
+                [self throwException:@"missing required latitude and longitude key-value pairs for 'southEastCoord' key" subreason:nil location:CODELOCATION];
+            }
+            CLLocationDegrees seLat = [TiUtils doubleValue:[secCoords objectForKey:@"latitude"]];
+            CLLocationDegrees seLon = [TiUtils doubleValue:[secCoords objectForKey:@"longitude"]];
+            CLLocationCoordinate2D sec = CLLocationCoordinate2DMake(seLat,seLon);
+            
+            //TODO release the se/nw latlon stuff, if neccessary
+            
+            //TODO implement checks that the image overlay parameters were all found and converted properly
+            
+            
+            //NSLog(@"Overlay Image size: %f,%f",img.size.width,img.size.height);
+            
+            
+            TiNFMImageOverlay* imgOverlay = [[TiNFMImageOverlay alloc] overlayWithImage:img northWestBound:nwc southEastBound:sec alpha:imageAlpha];
+            //TiNFMImageOverlay* imgOverlay = [[TiNFMImageOverlay alloc] overlayWithImage:img northWestBound:nwc southEastBound:sec];
+            
+            [imgOverlay setMinZoomScale:minZoomScale];
+            [imgOverlay setMaxZoomScale:maxZoomScale];
+            
+            [map addOverlay:imgOverlay];
+            [overlays setObject:imgOverlay forKey:name];
+            [imgOverlay release];
+            
+        }
+        else if ([overlayType isEqualToString:@"floating_image"]) {
+            
+            //retrieve the coordinates of the point on the globe where the floating image should be centered
+            NSDictionary *centerCoords = [args objectForKey:@"centerCoord"];
+            if (centerCoords == nil) {
+                [self throwException:@"missing required 'centerCoord' key" subreason:nil location:CODELOCATION];
+            }
+            if ([centerCoords objectForKey:@"latitude"]==nil ||  [centerCoords objectForKey:@"longitude"]==nil) {
+                [self throwException:@"missing required latitude and longitude key-value pairs for 'centerCoords' key" subreason:nil location:CODELOCATION];
+            }
+            CLLocationDegrees centerLat = [TiUtils doubleValue:[centerCoords objectForKey:@"latitude"]];
+            CLLocationDegrees centerLon = [TiUtils doubleValue:[centerCoords objectForKey:@"longitude"]];
+            CLLocationCoordinate2D center = CLLocationCoordinate2DMake(centerLat,centerLon);
+            
+            //retrive the width the image should take up in meters at the maximum zoom level
+            //retrieve the polygon/circle overlay styling details
+            
+            CGFloat imageWidth;
+            if ([args objectForKey:@"width"] != nil) {
+                imageWidth = [TiUtils floatValue:@"width" properties:args def:2];
+            }
+            else {
+                //TODO log use of default, or perhaps through exception instead
+                imageWidth = 10.0;
+            }
+            
+            TiNFMFloatingImageOverlay* imgOverlay = [[TiNFMFloatingImageOverlay alloc] overlayWithImage:img centerCoord:center width:imageWidth alpha:imageAlpha];
+            //TiNFMImageOverlay* imgOverlay = [[TiNFMImageOverlay alloc] overlayWithImage:img northWestBound:nwc southEastBound:sec];
+            [map addOverlay:imgOverlay];
+            [overlays setObject:imgOverlay forKey:name];
+            [imgOverlay release];
+            
+            
+        }
+        
+        
+    }
+    else {
+        
+        
+        
+        
+        
+        //retrieve the polygon/circle overlay styling details
+        
+        CGFloat strokeAlpha;
+        if ([args objectForKey:@"strokeAlpha"] != nil) {
+            strokeAlpha = [TiUtils floatValue:@"strokeAlpha" properties:args def:2];
+        }
+        else {
+            //TODO log use of default
+            strokeAlpha = 1.0;
+        }
+        CGFloat fillAlpha;
+        if ([args objectForKey:@"fillAlpha"] != nil) {
+            fillAlpha = [TiUtils floatValue:@"fillAlpha" properties:args def:2];
+        }
+        else {
+            //TODO log use of default
+            fillAlpha = 0.5;
+        }
+        
+        
+        TiColor *strokeColor= [TiUtils colorValue:@"strokeColor" properties:args];
+        TiColor *fillColor= [TiUtils colorValue:@"fillColor" properties:args];
+        UIColor* strokeColorUI;
+        UIColor* fillColorUI;
+        
+        if (strokeColor!=nil)
+        {
+            strokeColorUI = [[strokeColor _color] colorWithAlphaComponent:strokeAlpha];
+        }
+        else {
+            NSLog(@"No stroke color specified for polygon overlay; using default color blue instead");
+            strokeColorUI = [[UIColor blueColor] colorWithAlphaComponent:strokeAlpha];
+        }
+        
+        
+        if (fillColor!=nil)
+        {
+            fillColorUI = [[fillColor _color] colorWithAlphaComponent:fillAlpha];
+        }
+        else {
+            //use the stroke color as the fill color.
+            //TODO log use of default
+            fillColorUI = [[strokeColor _color] colorWithAlphaComponent:fillAlpha];
+        }
+        
+        
+        CGFloat lineWidth;
+        if ([args objectForKey:@"width"] != nil) {
+            lineWidth = [TiUtils floatValue:@"width" properties:args def:2];
+        }
+        else {
+            //TODO log use of default
+            lineWidth = 1.0;
+        }
+        
+        if ([overlayType isEqualToString:@"polygon"]) {
+            
+            //array to store overlay polygon vertice coordinates
+            NSArray *points = [args objectForKey:@"points"];
+            //check that arguments contain vertices
+            if (points==nil)
+            {
+                [self throwException:@"Missing required key: 'points'" subreason:nil location:CODELOCATION];
+            }
+            else {
+                TiNFMMapPolygon *overlayPolygon =  [[TiNFMMapPolygon alloc]initWithPoints:points];
+                
+                overlayPolygon.strokeColor = strokeColorUI;
+                overlayPolygon.fillColor = fillColorUI;
+                overlayPolygon.lineWidth = lineWidth;
+                overlayPolygon.polygonID = name;
+                
+                [map addOverlay:overlayPolygon];
+                [overlays setObject:overlayPolygon forKey:name];
+                [overlayPolygon release];
+            }
+            
+        }
+        else if ([overlayType isEqualToString:@"circle"]) {
+            if ([args objectForKey:@"center"]== nil) {
+                [self throwException:@"Missing required key: 'center'" subreason:nil location:CODELOCATION];
+            }
+            else if ([args objectForKey:@"radius"]== nil) {
+                [self throwException:@"Missing required key: 'radius'" subreason:nil location:CODELOCATION];
+            }
+            else {
+                NSDictionary *centerCoordinates = [args objectForKey:@"center"];
+                CLLocationDegrees lat = [TiUtils doubleValue:[centerCoordinates objectForKey:@"latitude"]];
+                CLLocationDegrees lon = [TiUtils doubleValue:[centerCoordinates objectForKey:@"longitude"]];
+                CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(lat,lon);
+                CLLocationDegrees rad = [TiUtils doubleValue:[args objectForKey:@"radius"]];
+                TiNFMMapCircle* overlayCircle = [[TiNFMMapCircle alloc]circleWithCenterCoordinate:coord radius:rad];
+                overlayCircle.circleID = name;
+                overlayCircle.strokeColor = strokeColorUI;
+                overlayCircle.fillColor = fillColorUI;
+                overlayCircle.lineWidth = lineWidth;
+                
+                [map addOverlay:overlayCircle];
+                [overlays setObject:overlayCircle forKey:name];
+                [overlayCircle release];
+                //TODO release centerCoordinates?
+            }
+        }
+        else {
+            //[self throwException:@"Missing required key: 'points'" subreason:nil location:CODELOCATION];
+            //TODO consider throwing exception or passing to parent class.
+            NSLog(@"Value for key 'type' for new overlay was unrecognized.");
+        }
+    }
+    
+    
+}
+
+-(void)removeOverlay:(id)args
+{
+    ENSURE_DICT(args);
+    NSString *name = [TiUtils stringValue:@"name" properties:args];
+    if (overlays==nil)
+    {
+        overlays = [[NSMutableDictionary dictionary] retain];
+    }
+    id<MKOverlay> ann = [overlays objectForKey:name];
+    if (ann!=nil)
+    {
+        [map removeOverlay:ann];
+        //[map removeOverlay:ann];
+        [overlays removeObjectForKey:name];
+        [overlayViews removeObjectForKey:name];
+    }
+}
+
+-(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id )overlay{
+    
+    //NSLog(@"Determining the proper overlay view class to use for this overlay ...");
+    if ([overlay isKindOfClass:[TiNFMImageOverlay class]]){
+        //NSLog(@"Setting overlayview for image overlay as TINFMImageOverlayView class");
+        TiNFMImageOverlay* imgOverlay = overlay;
+        TiNFMImageOverlayView* imgView = [[TiNFMImageOverlayView alloc] initWithUIImage:imgOverlay];
+        return imgView;
+    }
+    else if ([overlay isKindOfClass:[TiNFMFloatingImageOverlay class]]){
+        //NSLog(@"Setting overlayview for image overlay as TINFMImageOverlayView class");
+        TiNFMFloatingImageOverlay* imgOverlay = overlay;
+        TiNFMFloatingImageOverlayView* imgView = [[TiNFMFloatingImageOverlayView alloc] initWithUIImage:imgOverlay];
+        return imgView;
+    }
+    
+    else if ([overlay isKindOfClass:[TiNFMMapPolygon class]]){
+        //NSLog(@"Setting overlayview for polygon overlay as TINFMMapPolygonView class");
+        
+        
+        TiNFMMapPolygon *nfmPolygon = overlay;
+        MKPolygonView *view = [[[MKPolygonView alloc]initWithPolygon:[nfmPolygon polygon]] autorelease];
+        view.lineWidth=nfmPolygon.lineWidth;
+        view.strokeColor=nfmPolygon.strokeColor;
+        view.fillColor=nfmPolygon.fillColor;
+        
+        //		CGColorRef color = view.fillColor.CGColor;
+        //
+        //
+        //		int numComponents = CGColorGetNumberOfComponents(color);
+        //
+        //		if (numComponents == 4)
+        //		{
+        //			const CGFloat *components = CGColorGetComponents(color);
+        //			CGFloat red = floor(components[0]*255.0);
+        //			CGFloat green = floor(components[1]*255.0);
+        //			CGFloat blue = floor(components[2]*255.0);
+        //			CGFloat alpha = components[3];
+        //
+        //			NSString* rComp = [NSString stringWithFormat:@"%f", red];
+        //			NSString* gComp = [NSString stringWithFormat:@"%f", green];
+        //			NSString* bComp = [NSString stringWithFormat:@"%f", blue];
+        //			NSLog(@"%@",rComp);
+        //			NSLog(@"%@",gComp);
+        //			NSLog(@"%@",bComp);
+        //			NSLog(@"%@%@%@",rComp,gComp,bComp);
+        //		}
+        //		else {
+        //			NSLog(@"wrong number of components");
+        //		}
+        //TODO implement storage of the overlay views in overlayViews so that they can be shown/hidden.
+        //[overlayViews setObject:view forKey:overlay.name];
+        return view;
+    }
+    else if ([overlay isKindOfClass:[TiNFMMapCircle class]]) {
+        //NSLog(@"Setting overlayview for circle overlay as TINFMMapCircleView class");
+        TiNFMMapCircle* circle = overlay;
+        MKCircleView* cView = [[[MKCircleView alloc]initWithCircle:[circle circle]] autorelease];
+        cView.lineWidth = circle.lineWidth;
+        cView.strokeColor = circle.strokeColor;
+        cView.fillColor = circle.fillColor;
+        return cView;
+    }
+    else if ([overlay isKindOfClass:[TiNFMMapPolyline class]]) {
+        TiNFMMapPolyline* polylineO = overlay;
+        MKPolylineView* polylineView = [[MKPolylineView alloc] initWithPolyline:polylineO.polyline];
+        polylineView.strokeColor = polylineO.strokeColor;
+        polylineView.lineWidth = polylineO.lineWidth;
+        return polylineView;
+    }
+    else if ([overlay isKindOfClass:[NetfunctionalMapoverlayTilerOverlay class]]) {
+        NetfunctionalMapoverlayTilerOverlayView* ov = [[NetfunctionalMapoverlayTilerOverlayView alloc] initWithOverlay:overlay];
+        return ov;
+    }
+    else if ([overlay isKindOfClass:[MKPolygon class]]) {
+        NSLog(@"[TRACE] base MKPolygon overlay found, returning basic MKPolygonView");
+        
+        //presume that this is a overlay from a kml document
+        //we need the kml document in order to create the view for the overlay, so use our mapping of kml overlays to kml docs (see addKMLOverlays and removeKMLOverlays) to retrieve the appropriate doc
+        NetfunctionalMapoverlayKMLDocumentProxy* kmlDocForOverlay = [kmlOverlayToKMLDoc objectForKey:[NSValue valueWithPointer:overlay]];
+        if (!kmlDocForOverlay) {
+            NSLog(@"[ERROR] No KML doc found corresponding to MKPolygonOverlay Specified!  Expected this overlay to be mapped to a kml document with details of how the view should look; returning nil for view for overlay");
+            return nil;
+        }
+        
+        //        MKPolygon* polygon = overlay;
+        //        NSLog(@"polygon has title %@",[polygon title]);
+        MKOverlayView* polygonOverlayView = [kmlDocForOverlay viewForOverlay:overlay];
+        //        MKOverlayView* polygonOverlayView = [[MKPolygonView alloc ] initWithOverlay:overlay];
+        //        polygonOverlayView.fillColor = [[UIColor cyanColor] colorWithAlphaComponent:0.2];
+        //        polygonOverlayView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.7];
+        //        polygonOverlayView.lineWidth = 3;
+        
+        //        [polygonOverlayView set]
+        return polygonOverlayView;
+    }
+    else {
+        //fall back on super class in case we don't recognize the overlay type.  Also, this is safer in case TiMap eventually does implement overlay functionality.
+        NSLog(@"[ERROR] Unrecognized overlay type found %@, relying on default mapview to determine overlay view",overlay);
+                return [self mapView:map viewForTiOverlay:overlay];
+//        return nil;
+        
+    }
+    
+    
+    return nil;
 }
 
 

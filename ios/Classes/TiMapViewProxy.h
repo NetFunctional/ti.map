@@ -8,6 +8,11 @@
 #import "TiViewProxy.h"
 #import "TiMapAnnotationProxy.h"
 
+//#import "NetfunctionalMapoverlayAnnotationProxy.h"
+#import "NetfunctionalMapoverlayTilerOverlay.h"
+
+#import "NetfunctionalMapoverlayKMLDocumentProxy.h"
+
 @interface TiMapViewProxy : TiViewProxy {
 	TiMapAnnotationProxy* selectedAnnotation; // Annotation to select on initial display
 	NSMutableArray* annotationsToAdd; // Annotations to add on initial display
@@ -15,6 +20,15 @@
 	NSMutableArray* routesToAdd; 
 	NSMutableArray* routesToRemove; 
 	int zoomCount; // Number of times to zoom in/out on initial display
+    
+    //nf
+    NSMutableArray* overlaysToAdd;
+    NSMutableArray* overlaysToRemove; //mmatan
+    NSMutableArray* polylinesToAdd;
+    NSMutableArray* polylinesToRemove; //mmatan
+    NSMutableArray* kmlOverlaysToAdd; //mmatan
+    NSMutableArray* kmlOverlaysToRemove; //mmatan
+    NSString* tileDBPath; //mmatan
 }
 
 @property (nonatomic, readonly) NSNumber* longitudeDelta;
@@ -32,5 +46,11 @@
 -(void)zoom:(id)args;
 -(void)addRoute:(id)args;
 -(void)removeRoute:(id)args;
+
+//nf
+-(void)addOverlay:(id)args;
+-(void)removeOverlay:(id)args;
+-(void)addPolyline:(id)args;
+-(void)removePolyline:(id)args;
 
 @end

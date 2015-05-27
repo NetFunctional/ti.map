@@ -39,6 +39,16 @@
     NSLog(@"[WARN] `%@` is only supported on iOS 7 and greater.", name);
 }
 
+#pragma nf map overlay backwards compatibility methods
+//method to request location updates
+-(void) requestLocationUpdatesWhenInUseAuthorization:(id) args {
+    
+}
+
+- (void) requestLocationUpdatesAlwaysAuthorization:(id) args {
+
+}
+
 #pragma mark Public APIs
 
 -(TiMapViewProxy*)createView:(id)args

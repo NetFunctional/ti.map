@@ -10,6 +10,8 @@
 #import "TiMKOverlayPathUniversal.h"
 #import <MapKit/MapKit.h>
 
+#import "NetfunctionalMapoverlayKMLDocumentProxy.h"
+
 @class TiMapAnnotationProxy;
 
 @protocol TiMapAnnotation
@@ -34,6 +36,14 @@
 	
 	// Location manager needed for iOS 8 permissions
 	CLLocationManager *locationManager;
+    
+@private
+    NSMutableDictionary *overlays;
+    NSMutableDictionary *overlayViews;
+    NSMutableDictionary *polylines;
+    NSMutableDictionary *polylineViews;
+    
+    NSMutableDictionary *kmlOverlayToKMLDoc;
 }
 
 @property (nonatomic, readonly) CLLocationDegrees longitudeDelta;
@@ -65,6 +75,16 @@
 #pragma mark Framework
 -(void)refreshAnnotation:(TiMapAnnotationProxy*)proxy readd:(BOOL)yn;
 -(void)fireClickEvent:(MKAnnotationView *) pinview source:(NSString *)source;
+
+#pragma mark NF1 methods
+
+-(void) addKMLOverlays:(NetfunctionalMapoverlayKMLDocumentProxy*) kmlDocument;
+-(void) removeKMLOverlays:(NetfunctionalMapoverlayKMLDocumentProxy*) kmlDocument;
+-(void) addTilerOverlay:(id<MKOverlay>)overlay;
+-(void)addOverlay:(id)args;
+-(void)removeOverlay:(id)args;
+-(void)addPolyline:(id)args;
+-(void)removePolyline:(id)args;
 
 @end
 

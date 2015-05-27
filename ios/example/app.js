@@ -44,6 +44,7 @@ var rows = [
 if (IOS) {
     rows.push(require('tests/camera'));
     rows.push(require('tests/properties'));
+    rows.push(require('tests/overlays'));
 }
 
 if (ANDROID) {
